@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Selected Work — Arooj Chughtai</title>
+  <meta name="description" content="Selected architecture work: federated multi-org Salesforce search with Claude, a self-hosted document search stack, a reference AWS architecture, and a typical CPQ integration pattern." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0E1117;
+      --surf:      #161B27;
+      --surf2:     #1C2333;
+      --border:    rgba(247,195,95,.12);
+      --text:      #F2F3F7;
+      --muted:     #7E8BA3;
+      --amber:     #F7C35F;
+      --teal:      #3DD9B5;
+      --amber-dim: rgba(247,195,95,.10);
+      --teal-dim:  rgba(61,217,181,.10);
+      --r:         12px;
+      --disp:      'Syne', sans-serif;
+      --body:      'DM Sans', sans-serif;
+      --mono:      'JetBrains Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 200;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 3rem;
+      background: rgba(14,17,23,.88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--disp);
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--amber);
+      text-decoration: none;
+      letter-spacing: -.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: .75rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--amber); }
+    .nav-links a.active { color: var(--amber); }
+
+    /* ── PAGE HEADER ── */
+    #page-hero {
+      padding: 10rem 3rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .page-eyebrow {
+      font-family: var(--mono);
+      font-size: .75rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 1.25rem;
+    }
+
+    .page-title {
+      font-family: var(--disp);
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.02;
+      letter-spacing: -.03em;
+      max-width: 900px;
+      margin-bottom: 1.5rem;
+    }
+    .page-title em { color: var(--amber); font-style: normal; }
+
+    .page-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 640px;
+    }
+
+    /* ── SHARED ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .sec {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 5rem 3rem;
+    }
+
+    .lbl {
+      font-family: var(--mono);
+      font-size: .7rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: .6rem;
+    }
+
+    .sec-title {
+      font-family: var(--disp);
+      font-size: clamp(1.6rem, 3.4vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -.02em;
+      line-height: 1.15;
+      max-width: 780px;
+      margin-bottom: 1.1rem;
+    }
+
+    .work-desc {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 760px;
+      margin-bottom: 2.25rem;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .4rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: .65rem;
+      color: var(--muted);
+      background: var(--surf);
+      border: 1px solid rgba(255,255,255,.06);
+      padding: .28rem .65rem;
+      border-radius: 4px;
+    }
+
+    /* ── DIAGRAM CARD ── */
+    .diagram-card {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1.75rem;
+      overflow-x: auto;
+      position: relative;
+    }
+    .diagram-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      border-radius: var(--r) var(--r) 0 0;
+      background: linear-gradient(90deg, var(--amber), var(--teal));
+      opacity: .6;
+    }
+
+    .diagram-card svg {
+      width: 100%;
+      height: auto;
+      min-width: 640px;
+      display: block;
+    }
+
+    .diagram-caption {
+      font-family: var(--mono);
+      font-size: .68rem;
+      letter-spacing: .06em;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    /* ── CTA ── */
+    .work-cta {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+      padding: 1.75rem 2rem;
+      background: var(--amber-dim);
+      border: 1px solid rgba(247,195,95,.3);
+      border-radius: var(--r);
+    }
+
+    .work-cta p {
+      font-size: .95rem;
+      color: var(--text);
+      max-width: 480px;
+    }
+    .work-cta strong { color: var(--amber); }
+
+    .btn-a {
+      display: inline-block;
+      white-space: nowrap;
+      font-family: var(--mono);
+      font-size: .75rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: .875rem 2rem;
+      background: var(--amber);
+      color: #0E1117;
+      border: none;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: background .2s, transform .2s;
+    }
+    .btn-a:hover { background: #ffd07a; transform: translateY(-2px); }
+
+    .tag-skip {
+      text-decoration: line-through;
+      text-decoration-color: rgba(126,139,163,.6);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 3rem;
+      text-align: center;
+      font-family: var(--mono);
+      font-size: .7rem;
+      color: var(--muted);
+    }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--amber); }
+
+    /* ── ANIMATIONS ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .65s ease, transform .65s ease;
+    }
+    .reveal.on { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      nav { padding: 1rem 1.5rem; }
+      #page-hero { padding: 8rem 1.5rem 3rem; }
+      .sec { padding: 3.5rem 1.5rem; }
+      footer { padding: 1.5rem; }
+    }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">AC.</a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#expertise">Expertise</a></li>
+    <li><a href="index.html#experience">Experience</a></li>
+    <li><a href="index.html#certifications">Certifications</a></li>
+    <li><a href="work.html" class="active">My Work</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HEADER -->
+<div id="page-hero">
+  <p class="page-eyebrow">Selected Work &nbsp;·&nbsp; Architecture &amp; AI</p>
+  <h1 class="page-title">Five patterns from <em>real</em> engagements.</h1>
+  <p class="page-sub">A closer look at how I approach agentic AI, self-hosted search, cloud infrastructure, and Quote-to-Cash integration.</p>
+</div>
+
+<div class="divider"></div>
+
+<!-- 01 — MULTI-ORG SALESFORCE SEARCH WITH CLAUDE -->
+<section id="work-claude-search">
+  <div class="sec">
+    <p class="lbl">Work · 01 — Agentic AI</p>
+    <h2 class="sec-title reveal">Federated search across every Salesforce org, from one prompt.</h2>
+    <p class="work-desc reveal">Most enterprises that have grown by acquisition end up with several Salesforce instances instead of one — separate orgs for different regions or business units, each with its own data. I connected Claude to every org at once through the Model Context Protocol: a custom MCP connector authenticates against each org's API, and when a user asks a question, Claude fires the same SOSL/SOQL search against all instances in parallel, then merges, de-duplicates, and ranks the combined result set before answering. What used to mean logging into four separate orgs and searching each one by hand becomes a single conversational query.</p>
+    <div class="tags reveal">
+      <span class="tag">Claude + MCP</span>
+      <span class="tag">Multi-Org Salesforce</span>
+      <span class="tag">Parallel SOSL / SOQL</span>
+      <span class="tag">Result De-duplication</span>
+      <span class="tag">Unified Search API</span>
+    </div>
+    <div class="diagram-card reveal">
+      <svg viewBox="0 0 900 430" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arr1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0L10 5L0 10z" fill="#F7C35F"/>
+          </marker>
+        </defs>
+        <text x="450" y="28" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="2" fill="#7E8BA3">USER QUERY  →  FEDERATED SEARCH  →  UNIFIED RESULTS</text>
+
+        <!-- user query -->
+        <rect x="280" y="50" width="340" height="56" rx="10" fill="#1C2333" stroke="rgba(247,195,95,.3)"/>
+        <text x="450" y="83" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="14" fill="#F2F3F7">"Show me all open POs for Acme Corp"</text>
+
+        <line x1="450" y1="106" x2="450" y2="140" stroke="#F7C35F" stroke-width="1.5" marker-end="url(#arr1)"/>
+
+        <!-- claude orchestrator -->
+        <rect x="250" y="140" width="400" height="64" rx="10" fill="#1C2333" stroke="#F7C35F" stroke-width="1.5"/>
+        <text x="450" y="167" text-anchor="middle" font-family="Syne, sans-serif" font-weight="700" font-size="15" fill="#F7C35F">Claude + MCP Orchestrator</text>
+        <text x="450" y="186" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#7E8BA3">fans out one search to N connected orgs</text>
+
+        <!-- lines to 3 orgs -->
+        <line x1="330" y1="204" x2="140" y2="250" stroke="#3DD9B5" stroke-width="1.5" marker-end="url(#arr1)"/>
+        <line x1="450" y1="204" x2="450" y2="250" stroke="#3DD9B5" stroke-width="1.5" marker-end="url(#arr1)"/>
+        <line x1="570" y1="204" x2="760" y2="250" stroke="#3DD9B5" stroke-width="1.5" marker-end="url(#arr1)"/>
+        <text x="450" y="230" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#3DD9B5">MCP Salesforce Connector · parallel calls</text>
+
+        <!-- 3 org boxes -->
+        <rect x="40" y="250" width="200" height="64" rx="10" fill="#161B27" stroke="rgba(247,195,95,.2)"/>
+        <text x="140" y="277" text-anchor="middle" font-family="DM Sans, sans-serif" font-weight="500" font-size="13" fill="#F2F3F7">Salesforce — NA Org</text>
+        <text x="140" y="295" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#7E8BA3">SOSL search</text>
+
+        <rect x="350" y="250" width="200" height="64" rx="10" fill="#161B27" stroke="rgba(247,195,95,.2)"/>
+        <text x="450" y="277" text-anchor="middle" font-family="DM Sans, sans-serif" font-weight="500" font-size="13" fill="#F2F3F7">Salesforce — EMEA Org</text>
+        <text x="450" y="295" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#7E8BA3">SOSL search</text>
+
+        <rect x="660" y="250" width="200" height="64" rx="10" fill="#161B27" stroke="rgba(247,195,95,.2)"/>
+        <text x="760" y="277" text-anchor="middle" font-family="DM Sans, sans-serif" font-weight="500" font-size="13" fill="#F2F3F7">Salesforce — APAC Org</text>
+        <text x="760" y="295" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#7E8BA3">SOSL search</text>
+
+        <!-- converge -->
+        <line x1="140" y1="314" x2="400" y2="352" stroke="#F7C35F" stroke-width="1.5" marker-end="url(#arr1)"/>
+        <line x1="450" y1="314" x2="450" y2="352" stroke="#F7C35F" stroke-width="1.5" marker-end="url(#arr1)"/>
+        <line x1="760" y1="314" x2="500" y2="352" stroke="#F7C35F" stroke-width="1.5" marker-end="url(#arr1)"/>
+
+        <rect x="250" y="352" width="400" height="58" rx="10" fill="#1C2333" stroke="#3DD9B5" stroke-width="1.5"/>
+        <text x="450" y="378" text-anchor="middle" font-family="DM Sans, sans-serif" font-weight="500" font-size="13" fill="#F2F3F7">Merged · De-duplicated · Ranked Result Set</text>
+        <text x="450" y="396" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#7E8BA3">returned to user in one response</text>
+      </svg>
+      <p class="diagram-caption">Fig. 1 — Claude orchestrating parallel search across three Salesforce instances via MCP</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 02 — SELF-HOSTED DOCUMENT SEARCH: JAVA + LLAMA + VECTOR DB -->
+<section id="work-doc-search">
+  <div class="sec">
+    <p class="lbl">Work · 02 — Applied AI</p>
+    <h2 class="sec-title reveal">Enterprise document search, fully self-hosted.</h2>
+    <p class="work-desc reveal">Some organizations can't — or won't — send internal documents to a public cloud AI service. This stack proves you don't need to: it runs entirely on infrastructure you control, with no dependency on AWS, Azure, or GCP. A Java ingestion service parses and chunks internal documents (PDFs, Word files, wikis, Confluence exports); a self-hosted Llama model turns each chunk into an embedding; and a self-hosted vector database stores those embeddings for similarity search. At query time, the same Java service embeds the user's question through the same model and asks the vector store for the nearest matches — sensitive data never leaves the firewall.</p>
+    <div class="tags reveal">
+      <span class="tag">Java (Spring Boot)</span>
+      <span class="tag">Llama — self-hosted</span>
+      <span class="tag">Vector DB (Milvus / pgvector)</span>
+      <span class="tag">On-Prem / Private Cloud</span>
+      <span class="tag">No AWS · No Azure · No GCP</span>
+    </div>
+    <div class="diagram-card reveal">
+      <svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0L10 5L0 10z" fill="#F7C35F"/>
+          </marker>
+        </defs>
+        <text x="450" y="26" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="2" fill="#7E8BA3">SELF-HOSTED · NO PUBLIC CLOUD DEPENDENCY</text>
+
+        <!-- INGEST LANE -->
+        <text x="40" y="66" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="1.5" fill="#3DD9B5">INGEST-TIME</text>
+        <rect x="40" y="76" width="190" height="64" rx="10" fill="#161B27" stroke="rgba(247,195,95,.2)"/>
+        <text x="135" y="103" text-anchor="middle" font-family="DM Sans, sans-serif" font-weight="500" font-size="12.5" fill="#F2F3F7">Source Documents</text>
+        <text x="135" y="121" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#7E8BA3">PDF · DOCX · Wiki</text>
+
+        <line x1="230" y1="108" x2="270" y2="108" stroke="#F7C35F" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+        <rect x="270" y="76" width="200" height="64" rx="10" fill="#161B27" stroke="rgba(247,195,95,.2)"/>
+        <text x="370" y="103" text-anchor="middle" font-family="DM Sans, sans-serif" font-weight="500" font-size="12.5" fill="#F2F3F7">Java Ingestion Service</text>
+        <text x="370" y="121" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#7E8BA3">parse + chunk</text>
+
+        <line x1="470" y1="108" x2="510" y2="108" stroke="#F7C35F" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+        <rect x="510" y="76" width="220" height="64" rx="10" fill="#161B27" stroke="rgba(247,195,95,.2)"/>
+        <text x="620" y="103" text-anchor="middle" font-family="DM Sans, sans-serif" font-weight="500" font-size="12.5" fill="#F2F3F7">Llama Embedding Model</text>
+        <text x="620" y="121" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#7E8BA3">self-hosted inference</text>
+
+        <line x1="670" y1="140" x2="620" y2="180" stroke="#F7C35F" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+        <!-- VECTOR DB CENTER -->
+        <rect x="330" y="182" width="260" height="66" rx="10" fill="#1C2333" stroke="#F7C35F" stroke-width="1.5"/>
+        <text x="460" y="210" text-anchor="middle" font-family="Syne, sans-serif" font-weight="700" font-size="14.5" fill="#F7C35F">Vector Database</text>
+        <text x="460" y="229" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#7E8BA3">Milvus / pgvector — self-hosted</text>
+
+        <!-- QUERY LANE -->
+        <text x="40" y="284" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="1.5" fill="#3DD9B5">QUERY-TIME</text>
+        <rect x="40" y="294" width="190" height="64" rx="10" fill="#161B27" stroke="rgba(247,195,95,.2)"/>
+        <text x="135" y="321" text-anchor="middle" font-family="DM Sans, sans-serif" font-weight="500" font-size="12.5" fill="#F2F3F7">User Search Query</text>
+        <text x="135" y="339" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#7E8BA3">natural language</text>
+
+        <line x1="230" y1="326" x2="270" y2="326" stroke="#3DD9B5" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+        <rect x="270" y="294" width="200" height="64" rx="10" fill="#161B27" stroke="rgba(247,195,95,.2)"/>
+        <text x="370" y="321" text-anchor="middle" font-family="DM Sans, sans-serif" font-weight="500" font-size="12.5" fill="#F2F3F7">Java Search API</text>
+        <text x="370" y="339" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#7E8BA3">embeds via Llama, queries DB</text>
+
+        <line x1="400" y1="294" x2="410" y2="248" stroke="#3DD9B5" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+        <line x1="470" y1="326" x2="510" y2="326" stroke="#3DD9B5" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+        <rect x="510" y="294" width="220" height="64" rx="10" fill="#161B27" stroke="rgba(61,217,181,.35)"/>
+        <text x="620" y="321" text-anchor="middle" font-family="DM Sans, sans-serif" font-weight="500" font-size="12.5" fill="#F2F3F7">Ranked Results</text>
+        <text x="620" y="339" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#7E8BA3">returned to user</text>
+      </svg>
+      <p class="diagram-caption">Fig. 2 — Ingestion and query-time flows meeting at a self-hosted vector store</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 03 — TYPICAL AWS ARCHITECTURE -->
+<section id="work-aws">
+  <div class="sec">
+    <p class="lbl">Work · 03 — Cloud Architecture</p>
+    <h2 class="sec-title reveal">A reference AWS architecture for scalable web applications.</h2>
+    <p class="work-desc reveal">A pattern I've implemented repeatedly across engagements: DNS and edge caching sit in front of a load-balanced, auto-scaling application tier, backed by managed data stores and event-driven compute for asynchronous workloads, with observability built in from day one rather than bolted on afterward.</p>
+    <div class="tags reveal">
+      <span class="tag">Route 53</span>
+      <span class="tag">CloudFront + WAF</span>
+      <span class="tag">ALB</span>
+      <span class="tag">ECS / EKS Auto-Scaling</span>
+      <span class="tag">RDS Multi-AZ</span>
+      <span class="tag">Lambda + SQS</span>
+      <span class="tag">CloudWatch</span>
+    </div>
+    <div class="diagram-card reveal">
+      <svg viewBox="0 0 900 460" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arr3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0L10 5L0 10z" fill="#F7C35F"/>
+          </marker>
+        </defs>
+        <text x="450" y="26" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="2" fill="#7E8BA3">EDGE  →  APPLICATION TIER  →  DATA &amp; ASYNC TIER</text>
+
+        <rect x="380" y="44" width="140" height="46" rx="9" fill="#161B27" stroke="rgba(247,195,95,.2)"/>
+        <text x="450" y="72" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#F2F3F7">Internet Users</text>
+
+        <line x1="450" y1="90" x2="450" y2="118" stroke="#F7C35F" stroke-width="1.5" marker-end="url(#arr3)"/>
+
+        <rect x="330" y="118" width="120" height="46" rx="9" fill="#1C2333" stroke="rgba(247,195,95,.25)"/>
+        <text x="390" y="146" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="12" fill="#F2F3F7">Route 53</text>
+
+        <rect x="460" y="118" width="140" height="46" rx="9" fill="#1C2333" stroke="rgba(247,195,95,.25)"/>
+        <text x="530" y="140" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="12" fill="#F2F3F7">CloudFront</text>
+        <text x="530" y="155" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#7E8BA3">+ WAF</text>
+
+        <line x1="450" y1="164" x2="450" y2="192" stroke="#F7C35F" stroke-width="1.5" marker-end="url(#arr3)"/>
+
+        <rect x="330" y="192" width="240" height="46" rx="9" fill="#1C2333" stroke="#F7C35F" stroke-width="1.5"/>
+        <text x="450" y="220" text-anchor="middle" font-family="DM Sans, sans-serif" font-weight="500" font-size="12.5" fill="#F2F3F7">Application Load Balancer</text>
+
+        <line x1="450" y1="238" x2="450" y2="266" stroke="#F7C35F" stroke-width="1.5" marker-end="url(#arr3)"/>
+
+        <rect x="270" y="266" width="360" height="60" rx="9" fill="#1C2333" stroke="#3DD9B5" stroke-width="1.5"/>
+        <text x="450" y="292" text-anchor="middle" font-family="Syne, sans-serif" font-weight="700" font-size="14" fill="#3DD9B5">ECS / EKS Auto-Scaling Cluster</text>
+        <text x="450" y="310" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#7E8BA3">VPC private subnets · multi-AZ</text>
+
+        <!-- branches -->
+        <line x1="330" y1="326" x2="150" y2="366" stroke="#F7C35F" stroke-width="1.5" marker-end="url(#arr3)"/>
+        <line x1="450" y1="326" x2="450" y2="366" stroke="#F7C35F" stroke-width="1.5" marker-end="url(#arr3)"/>
+        <line x1="570" y1="326" x2="750" y2="366" stroke="#F7C35F" stroke-width="1.5" marker-end="url(#arr3)"/>
+
+        <rect x="60" y="366" width="180" height="56" rx="9" fill="#161B27" stroke="rgba(247,195,95,.2)"/>
+        <text x="150" y="391" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="12" fill="#F2F3F7">RDS (Multi-AZ)</text>
+        <text x="150" y="408" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#7E8BA3">+ ElastiCache</text>
+
+        <rect x="360" y="366" width="180" height="56" rx="9" fill="#161B27" stroke="rgba(247,195,95,.2)"/>
+        <text x="450" y="391" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="12" fill="#F2F3F7">S3</text>
+        <text x="450" y="408" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#7E8BA3">static assets / uploads</text>
+
+        <rect x="660" y="366" width="180" height="56" rx="9" fill="#161B27" stroke="rgba(247,195,95,.2)"/>
+        <text x="750" y="391" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="12" fill="#F2F3F7">Lambda + SQS</text>
+        <text x="750" y="408" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#7E8BA3">async / event-driven</text>
+
+        <text x="450" y="448" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="1" fill="#7E8BA3">CloudWatch + X-Ray — observability across every layer</text>
+      </svg>
+      <p class="diagram-caption">Fig. 3 — Reference 3-tier AWS architecture</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 04 — TYPICAL CPQ INTEGRATION ARCHITECTURE -->
+<section id="work-cpq">
+  <div class="sec">
+    <p class="lbl">Work · 04 — Quote-to-Cash</p>
+    <h2 class="sec-title reveal">How CPQ sits at the center of the Quote-to-Cash stack.</h2>
+    <p class="work-desc reveal">CPQ rarely operates in isolation — it's the hub connecting CRM, product and pricing data, contract lifecycle management, ERP, and billing. This is the integration pattern I've implemented most often across Fortune 500 Quote-to-Cash transformations, typically stitched together through an iPaaS layer like MuleSoft.</p>
+    <div class="tags reveal">
+      <span class="tag">Salesforce CRM</span>
+      <span class="tag">Conga CPQ</span>
+      <span class="tag">Product Catalog &amp; Pricing</span>
+      <span class="tag">CLM + DocuSign</span>
+      <span class="tag">SAP / Oracle ERP</span>
+      <span class="tag">Zuora Billing</span>
+      <span class="tag">MuleSoft iPaaS</span>
+    </div>
+    <div class="diagram-card reveal">
+      <svg viewBox="0 0 900 440" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arr4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0L10 5L0 10z" fill="#F7C35F"/>
+          </marker>
+        </defs>
+        <text x="450" y="26" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="2" fill="#7E8BA3">CPQ AS THE INTEGRATION HUB</text>
+
+        <!-- center CPQ -->
+        <rect x="350" y="188" width="200" height="64" rx="10" fill="#1C2333" stroke="#F7C35F" stroke-width="1.5"/>
+        <text x="450" y="215" text-anchor="middle" font-family="Syne, sans-serif" font-weight="700" font-size="14.5" fill="#F7C35F">CPQ Engine</text>
+        <text x="450" y="234" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#7E8BA3">Conga CPQ</text>
+
+        <!-- top: pricing/catalog -->
+        <line x1="450" y1="188" x2="450" y2="120" stroke="#3DD9B5" stroke-width="1.5" marker-end="url(#arr4)"/>
+        <rect x="350" y="60" width="200" height="60" rx="9" fill="#161B27" stroke="rgba(247,195,95,.2)"/>
+        <text x="450" y="86" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="12.5" fill="#F2F3F7">Product Catalog</text>
+        <text x="450" y="104" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#7E8BA3">pricing &amp; discount rules</text>
+
+        <!-- left: CRM -->
+        <line x1="350" y1="210" x2="230" y2="210" stroke="#3DD9B5" stroke-width="1.5" marker-end="url(#arr4)"/>
+        <rect x="40" y="180" width="190" height="60" rx="9" fill="#161B27" stroke="rgba(247,195,95,.2)"/>
+        <text x="135" y="206" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="12.5" fill="#F2F3F7">Salesforce CRM</text>
+        <text x="135" y="224" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#7E8BA3">opportunity → quote</text>
+
+        <!-- right: CLM/eSign -->
+        <line x1="550" y1="210" x2="670" y2="210" stroke="#3DD9B5" stroke-width="1.5" marker-end="url(#arr4)"/>
+        <rect x="670" y="180" width="190" height="60" rx="9" fill="#161B27" stroke="rgba(247,195,95,.2)"/>
+        <text x="765" y="206" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="12.5" fill="#F2F3F7">CLM + DocuSign</text>
+        <text x="765" y="224" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#7E8BA3">contract → e-signature</text>
+
+        <!-- bottom: ERP + billing -->
+        <line x1="420" y1="252" x2="280" y2="320" stroke="#3DD9B5" stroke-width="1.5" marker-end="url(#arr4)"/>
+        <line x1="480" y1="252" x2="620" y2="320" stroke="#3DD9B5" stroke-width="1.5" marker-end="url(#arr4)"/>
+
+        <rect x="90" y="320" width="200" height="60" rx="9" fill="#161B27" stroke="rgba(247,195,95,.2)"/>
+        <text x="190" y="346" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="12.5" fill="#F2F3F7">SAP / Oracle ERP</text>
+        <text x="190" y="364" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#7E8BA3">order fulfillment</text>
+
+        <rect x="610" y="320" width="200" height="60" rx="9" fill="#161B27" stroke="rgba(247,195,95,.2)"/>
+        <text x="710" y="346" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="12.5" fill="#F2F3F7">Zuora Billing</text>
+        <text x="710" y="364" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#7E8BA3">invoicing &amp; revenue recognition</text>
+
+        <text x="450" y="416" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="1" fill="#7E8BA3">MuleSoft iPaaS — orchestrates every connection above</text>
+      </svg>
+      <p class="diagram-caption">Fig. 4 — CPQ as the hub of a typical Quote-to-Cash integration</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 05 — DOC GEN FROM YOUR OWN MACHINE OR CLOUD -->
+<section id="work-docgen">
+  <div class="sec">
+    <p class="lbl">Work · 05 — Document Generation</p>
+    <h2 class="sec-title reveal">Generate contracts and documents from your own machine or cloud — no 3rd-party license required.</h2>
+    <p class="work-desc reveal">Most companies default to buying a document-generation platform for contracts, quotes, and proposals — and end up paying recurring per-seat or per-document fees for something that can run on infrastructure you already own. I've built document generation pipelines that merge live CRM/CPQ/ERP data into templates and produce polished, ready-to-sign output entirely from your own machine or your own cloud account, with no third-party DocGen subscription in the stack.</p>
+    <div class="tags reveal">
+      <span class="tag">Self-Hosted DocGen</span>
+      <span class="tag">Your Cloud Account</span>
+      <span class="tag tag-skip">3rd-Party DocGen License</span>
+      <span class="tag">Template + Merge Engine</span>
+      <span class="tag">Contracts · Quotes · Proposals</span>
+    </div>
+    <div class="diagram-card reveal">
+      <svg viewBox="0 0 900 340" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arr5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0L10 5L0 10z" fill="#F7C35F"/>
+          </marker>
+        </defs>
+        <text x="450" y="26" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="2" fill="#7E8BA3">YOUR DATA  →  YOUR INFRASTRUCTURE  →  FINISHED DOCUMENT</text>
+
+        <!-- source data -->
+        <rect x="40" y="70" width="190" height="60" rx="9" fill="#161B27" stroke="rgba(247,195,95,.2)"/>
+        <text x="135" y="96" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="12.5" fill="#F2F3F7">Your Data</text>
+        <text x="135" y="114" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#7E8BA3">CRM · CPQ · ERP</text>
+
+        <line x1="230" y1="100" x2="270" y2="100" stroke="#F7C35F" stroke-width="1.5" marker-end="url(#arr5)"/>
+
+        <!-- engine -->
+        <rect x="270" y="70" width="240" height="60" rx="9" fill="#1C2333" stroke="#F7C35F" stroke-width="1.5"/>
+        <text x="390" y="96" text-anchor="middle" font-family="Syne, sans-serif" font-weight="700" font-size="13.5" fill="#F7C35F">Self-Hosted DocGen Engine</text>
+        <text x="390" y="114" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#7E8BA3">your machine or your cloud account</text>
+
+        <line x1="510" y1="100" x2="550" y2="100" stroke="#F7C35F" stroke-width="1.5" marker-end="url(#arr5)"/>
+
+        <!-- templates -->
+        <rect x="550" y="70" width="150" height="60" rx="9" fill="#161B27" stroke="rgba(247,195,95,.2)"/>
+        <text x="625" y="96" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="12.5" fill="#F2F3F7">Templates</text>
+        <text x="625" y="114" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#7E8BA3">+ merge logic</text>
+
+        <line x1="700" y1="100" x2="740" y2="100" stroke="#F7C35F" stroke-width="1.5" marker-end="url(#arr5)"/>
+
+        <!-- output -->
+        <rect x="740" y="60" width="130" height="80" rx="9" fill="#1C2333" stroke="rgba(61,217,181,.4)"/>
+        <text x="805" y="90" text-anchor="middle" font-family="DM Sans, sans-serif" font-weight="500" font-size="12" fill="#F2F3F7">Finished Docs</text>
+        <text x="805" y="107" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#7E8BA3">contracts</text>
+        <text x="805" y="121" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#7E8BA3">quotes · proposals</text>
+
+        <!-- skipped box -->
+        <rect x="270" y="200" width="390" height="70" rx="9" fill="none" stroke="#7E8BA3" stroke-width="1.3" stroke-dasharray="5,5"/>
+        <line x1="290" y1="215" x2="640" y2="255" stroke="#7E8BA3" stroke-width="1.3"/>
+        <text x="465" y="230" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="12.5" fill="#7E8BA3">3rd-Party DocGen SaaS License</text>
+        <text x="465" y="250" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#7E8BA3">recurring per-seat / per-doc fees</text>
+        <text x="465" y="290" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="1" fill="#F7C35F">not required — this is the $$$ you keep</text>
+      </svg>
+      <p class="diagram-caption">Fig. 5 — Document generation running entirely on infrastructure you own</p>
+    </div>
+    <div class="work-cta reveal">
+      <p><strong>Curious how this works?</strong> Get in touch and I'll walk you through exactly how to set this up on your own machine or cloud account — and how much it can save you versus a 3rd-party license.</p>
+      <a href="index.html#contact" class="btn-a">Contact Me</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Arooj Chughtai &nbsp;·&nbsp; Enterprise Architect &nbsp;·&nbsp; <a href="index.html">Back to Home</a></p>
+</footer>
+
+<script>
+(function () {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+  }, { threshold: .08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+}());
+</script>
+</body>
+</html>
