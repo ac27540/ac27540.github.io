@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arooj Chughtai — Enterprise Architect</title>
+  <meta name="description" content="Enterprise Architect with 15+ years delivering Quote-to-Cash, CLM, and AI-powered solutions for Fortune 500 companies across North America, EMEA, and APAC." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0E1117;
+      --surf:      #161B27;
+      --surf2:     #1C2333;
+      --border:    rgba(247,195,95,.12);
+      --text:      #F2F3F7;
+      --muted:     #7E8BA3;
+      --amber:     #F7C35F;
+      --teal:      #3DD9B5;
+      --amber-dim: rgba(247,195,95,.10);
+      --teal-dim:  rgba(61,217,181,.10);
+      --r:         12px;
+      --disp:      'Syne', sans-serif;
+      --body:      'DM Sans', sans-serif;
+      --mono:      'JetBrains Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 200;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 3rem;
+      background: rgba(14,17,23,.88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--disp);
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--amber);
+      text-decoration: none;
+      letter-spacing: -.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: .75rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--amber); }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    #hero-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 8rem 3rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-text { display: flex; flex-direction: column; }
+
+    .hero-photo {
+      opacity: 0;
+      animation: up .7s ease 1.2s forwards;
+      display: flex;
+      justify-content: center;
+    }
+
+    .photo-frame {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      background: var(--surf);
+      border: 1.5px dashed rgba(247,195,95,.35);
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: .75rem;
+      overflow: hidden;
+      /* ── TO ADD YOUR PHOTO: replace the contents of .photo-frame with:
+         <img src="your-photo.jpg" alt="Arooj Chughtai"
+              style="width:100%;height:100%;object-fit:cover;" />
+      ── */
+    }
+
+    .photo-frame-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--amber-dim);
+      border: 1px solid rgba(247,195,95,.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .photo-frame-icon svg { width: 26px; height: 26px; stroke: var(--amber); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+
+    .photo-frame-lbl {
+      font-family: var(--mono);
+      font-size: .68rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: rgba(247,195,95,.45);
+    }
+
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: .75rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: up .7s ease .2s forwards;
+    }
+
+    .hero-name {
+      font-family: var(--disp);
+      font-size: clamp(3.5rem, 9vw, 7.5rem);
+      font-weight: 800;
+      line-height: .93;
+      letter-spacing: -.035em;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: up .7s ease .4s forwards;
+    }
+    .hero-name em { color: var(--amber); font-style: normal; }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2.2vw, 1.35rem);
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 580px;
+      margin-bottom: 2.25rem;
+      opacity: 0;
+      animation: up .7s ease .6s forwards;
+    }
+
+    .hero-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .65rem;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: up .7s ease .8s forwards;
+    }
+
+    .pill {
+      font-family: var(--mono);
+      font-size: .68rem;
+      letter-spacing: .04em;
+      padding: .35rem .9rem;
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      color: var(--muted);
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      opacity: 0;
+      animation: up .7s ease 1s forwards;
+    }
+
+    .btn-a {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: .75rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: .875rem 2rem;
+      background: var(--amber);
+      color: #0E1117;
+      border: none;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: background .2s, transform .2s;
+    }
+    .btn-a:hover { background: #ffd07a; transform: translateY(-2px); }
+
+    .btn-b {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: .75rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: .875rem 2rem;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: border-color .2s, color .2s;
+    }
+    .btn-b:hover { border-color: var(--amber); color: var(--amber); }
+
+    .hero-bar {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, var(--amber) 30%, var(--teal) 70%, transparent 100%);
+      opacity: 0;
+      animation: fade 1s ease 1.5s forwards;
+    }
+
+    /* ── SHARED ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .sec {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 5.5rem 3rem;
+    }
+
+    .lbl {
+      font-family: var(--mono);
+      font-size: .7rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: .6rem;
+    }
+
+    .sec-title {
+      font-family: var(--disp);
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -.025em;
+      line-height: 1.1;
+      margin-bottom: 2.75rem;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .about-text {
+      font-size: 1.05rem;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .stats {
+      display: flex;
+      flex-direction: column;
+      gap: 2.25rem;
+    }
+
+    .stat {
+      border-left: 2px solid var(--amber);
+      padding-left: 1.5rem;
+    }
+
+    .stat-n {
+      font-family: var(--disp);
+      font-size: 3.25rem;
+      font-weight: 800;
+      color: var(--amber);
+      line-height: 1;
+    }
+
+    .stat-l {
+      font-size: .9rem;
+      color: var(--muted);
+      margin-top: .3rem;
+    }
+
+    /* ── EXPERTISE ── */
+    .exp-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+
+    .exp-card {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color .25s, transform .25s;
+    }
+
+    .exp-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--amber), var(--teal));
+      opacity: 0;
+      transition: opacity .25s;
+    }
+    .exp-card:hover { border-color: rgba(247,195,95,.35); transform: translateY(-4px); }
+    .exp-card:hover::after { opacity: 1; }
+
+    .exp-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--amber-dim);
+      border: 1px solid rgba(247,195,95,.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .exp-icon svg { width: 18px; height: 18px; stroke: var(--amber); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+
+    .exp-title {
+      font-family: var(--disp);
+      font-size: .95rem;
+      font-weight: 700;
+      margin-bottom: .75rem;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .4rem;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: .63rem;
+      color: var(--muted);
+      background: var(--bg);
+      border: 1px solid rgba(255,255,255,.05);
+      padding: .2rem .55rem;
+      border-radius: 4px;
+    }
+
+    /* ── TIMELINE ── */
+    .timeline {
+      position: relative;
+      padding-left: 2px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 8px; bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .tl-item {
+      padding: 0 0 3.5rem 2.75rem;
+      position: relative;
+    }
+
+    .tl-item:last-child { padding-bottom: 0; }
+
+    .tl-dot {
+      position: absolute;
+      left: -4px;
+      top: 8px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--amber);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 10px rgba(247,195,95,.5);
+    }
+
+    .tl-period {
+      font-family: var(--mono);
+      font-size: .7rem;
+      letter-spacing: .06em;
+      color: var(--teal);
+      margin-bottom: .45rem;
+    }
+
+    .tl-role {
+      font-family: var(--disp);
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: .25rem;
+    }
+
+    .tl-co {
+      font-size: .88rem;
+      color: var(--amber);
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+
+    .tl-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: .55rem;
+    }
+
+    .tl-list li {
+      font-size: .92rem;
+      color: var(--muted);
+      padding-left: 1.2rem;
+      position: relative;
+      line-height: 1.6;
+    }
+
+    .tl-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--amber);
+      font-size: .78rem;
+      top: .05em;
+    }
+
+    .tl-earlier {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+    }
+
+    .tl-earlier-title {
+      font-family: var(--mono);
+      font-size: .7rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .tl-earlier-items {
+      display: flex;
+      flex-direction: column;
+      gap: .6rem;
+    }
+
+    .tl-earlier-item {
+      font-size: .9rem;
+      color: var(--muted);
+    }
+    .tl-earlier-item strong { color: var(--text); font-weight: 500; }
+
+    /* ── CERTS ── */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: .9rem;
+    }
+
+    .cert {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.1rem 1.4rem;
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      transition: border-color .2s, transform .2s;
+    }
+    .cert:hover { border-color: rgba(61,217,181,.35); transform: translateX(4px); }
+
+    .cert-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--teal);
+      flex-shrink: 0;
+    }
+
+    .cert-name {
+      font-size: .88rem;
+      font-weight: 500;
+      line-height: 1.3;
+    }
+
+    .cert-by {
+      font-family: var(--mono);
+      font-size: .65rem;
+      color: var(--muted);
+      margin-top: .15rem;
+    }
+
+    /* ── EDUCATION ── */
+    .edu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .edu-card {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 2rem;
+    }
+
+    .edu-deg {
+      font-family: var(--disp);
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: .4rem;
+    }
+
+    .edu-school {
+      font-size: .9rem;
+      color: var(--amber);
+      font-style: italic;
+      margin-bottom: .5rem;
+    }
+
+    .edu-years {
+      font-family: var(--mono);
+      font-size: .7rem;
+      color: var(--muted);
+      letter-spacing: .04em;
+    }
+
+    /* ── CONTACT ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .contact-hed {
+      font-family: var(--disp);
+      font-size: clamp(1.9rem, 4vw, 3.25rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -.025em;
+    }
+    .contact-hed em { color: var(--amber); font-style: normal; }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .clink {
+      display: flex;
+      align-items: center;
+      gap: .9rem;
+      padding: 1.1rem 1.4rem;
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color .2s, background .2s;
+    }
+    .clink:hover { border-color: rgba(247,195,95,.4); background: var(--surf2); }
+
+    .clink-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--amber-dim);
+      border: 1px solid rgba(247,195,95,.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .clink-icon svg { width: 15px; height: 15px; stroke: var(--amber); fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+
+    .clink-lbl {
+      font-family: var(--mono);
+      font-size: .65rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .clink-val {
+      font-size: .92rem;
+      font-weight: 500;
+      margin-top: .05rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 3rem;
+      text-align: center;
+      font-family: var(--mono);
+      font-size: .7rem;
+      color: var(--muted);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes up {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fade {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .65s ease, transform .65s ease;
+    }
+    .reveal.on { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      nav { padding: 1rem 1.5rem; }
+      .hero-inner { padding: 7rem 1.5rem 4rem; grid-template-columns: 1fr; }
+      .hero-photo { display: none; }
+      .sec { padding: 4rem 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .exp-grid { grid-template-columns: 1fr 1fr; }
+      .edu-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      footer { padding: 1.5rem; }
+    }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .exp-grid { grid-template-columns: 1fr; }
+      .hero-ctas { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">AC.</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#expertise">Expertise</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="work.html">My Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <p class="hero-eyebrow">Enterprise Architect &nbsp;·&nbsp; San Francisco, CA</p>
+      <h1 class="hero-name">Arooj<br><em>Chughtai</em></h1>
+      <p class="hero-sub">Quote-to-Cash &nbsp;·&nbsp; Contract Lifecycle Management &nbsp;·&nbsp; AI &amp; Solution Architecture</p>
+      <div class="hero-pills">
+        <span class="pill">Salesforce</span>
+        <span class="pill">SAP S/4HANA</span>
+        <span class="pill">AWS Certified</span>
+        <span class="pill">Agentic AI</span>
+        <span class="pill">Claude / MCP</span>
+        <span class="pill">Fortune 500</span>
+        <span class="pill">NA · EMEA · APAC</span>
+      </div>
+      <div class="hero-ctas">
+        <a href="work.html" class="btn-a">My Work</a>
+        <a href="#experience" class="btn-b">View Experience</a>
+        <a href="#contact" class="btn-b">Get in Touch</a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <div class="photo-frame">
+        <div class="photo-frame-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <p class="photo-frame-lbl">Your photo here</p>
+      </div>
+    </div>
+  </div>
+  <div class="hero-bar" aria-hidden="true"></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="sec">
+    <p class="lbl">About</p>
+    <div class="about-grid reveal">
+      <div>
+        <h2 class="sec-title">Architecting transformation<br>at enterprise scale.</h2>
+        <p class="about-text">Enterprise Architect with 15+ years partnering with Fortune 500 and global enterprises to design and deliver transformational Quote-to-Cash, Contract Lifecycle Management, and Document Automation solutions. Trusted advisor to strategic and commercial customers across North America, EMEA, and APAC — leading engagements from solution vision through architecture design, implementation strategy, and executive alignment. Salesforce- and AWS-certified, with deep expertise in enterprise integration, cloud, security, and digital transformation. Increasingly focused on applying AI and agentic solutions — including LLM-powered enterprise search and automation — to modernize Quote-to-Cash workflows.</p>
+      </div>
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-n">15+</div>
+          <div class="stat-l">Years in Enterprise Architecture</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n">3</div>
+          <div class="stat-l">Global Regions: NA · EMEA · APAC</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n">F500</div>
+          <div class="stat-l">Fortune 500 Enterprise Clients</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXPERTISE -->
+<section id="expertise">
+  <div class="sec">
+    <p class="lbl">Core Competencies</p>
+    <h2 class="sec-title reveal">Where I bring value.</h2>
+    <div class="exp-grid">
+
+      <div class="exp-card reveal">
+        <div class="exp-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <p class="exp-title">Architecture &amp; Strategy</p>
+        <div class="tags">
+          <span class="tag">Enterprise Architecture</span><span class="tag">Solution Design</span><span class="tag">Digital Transformation</span><span class="tag">Presales Advisory</span><span class="tag">Architecture Roadmapping</span><span class="tag">Executive Alignment</span>
+        </div>
+      </div>
+
+      <div class="exp-card reveal">
+        <div class="exp-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        </div>
+        <p class="exp-title">Quote-to-Cash &amp; CLM</p>
+        <div class="tags">
+          <span class="tag">CPQ</span><span class="tag">Billing &amp; Revenue</span><span class="tag">Order Management</span><span class="tag">CLM</span><span class="tag">Document Automation</span><span class="tag">Lead-to-Cash</span>
+        </div>
+      </div>
+
+      <div class="exp-card reveal">
+        <div class="exp-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <p class="exp-title">Enterprise Platforms</p>
+        <div class="tags">
+          <span class="tag">Salesforce</span><span class="tag">SAP S/4HANA</span><span class="tag">Oracle</span><span class="tag">Ariba</span><span class="tag">NetSuite</span><span class="tag">Zuora</span><span class="tag">Workday</span>
+        </div>
+      </div>
+
+      <div class="exp-card reveal">
+        <div class="exp-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+        </div>
+        <p class="exp-title">Integration</p>
+        <div class="tags">
+          <span class="tag">REST / SOAP APIs</span><span class="tag">iPaaS</span><span class="tag">Service Orchestration</span><span class="tag">Middleware</span><span class="tag">Oracle Fusion MW</span><span class="tag">Web Services</span>
+        </div>
+      </div>
+
+      <div class="exp-card reveal">
+        <div class="exp-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 0v4M12 22v-4M2 12h4M22 12h-4"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <p class="exp-title">AI &amp; Emerging Technology</p>
+        <div class="tags">
+          <span class="tag">Agentic AI</span><span class="tag">LLMs</span><span class="tag">Claude / Anthropic API</span><span class="tag">Model Context Protocol</span><span class="tag">Enterprise Search</span>
+        </div>
+      </div>
+
+      <div class="exp-card reveal">
+        <div class="exp-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <p class="exp-title">Cloud &amp; Security</p>
+        <div class="tags">
+          <span class="tag">AWS</span><span class="tag">SSO / IAM</span><span class="tag">Data Governance</span><span class="tag">PCI</span><span class="tag">Regulatory Compliance</span><span class="tag">Cloud Security</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="sec">
+    <p class="lbl">Professional Experience</p>
+    <h2 class="sec-title reveal">Career timeline.</h2>
+    <div class="timeline">
+
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <p class="tl-period">Mar 2015 – Present &nbsp;·&nbsp; 11+ Years</p>
+        <h3 class="tl-role">Senior Enterprise Architect | Presales Engineering</h3>
+        <p class="tl-co">Conga Corporation — San Francisco Bay Area</p>
+        <ul class="tl-list">
+          <li>Presales Solutions Engineer and Enterprise Architecture overlay for 11+ years, partnering with account executives and solution consultants to shape deal strategy and technical win themes across strategic and commercial accounts.</li>
+          <li>Trusted advisor to customers across North America, EMEA, and APAC, modernizing Quote-to-Cash, Contract Lifecycle Management, and Document Automation business processes.</li>
+          <li>Built an AI-powered proof of concept for a financial-services enterprise using Claude to enable natural-language search across multiple Salesforce orgs — demonstrating agentic AI via Model Context Protocol for cross-org data discovery and Q2C workflows.</li>
+          <li>Lead architecture discussions and solution design for complex enterprise engagements, advising executive and technical stakeholders on integration, security, compliance, scalability, and transformation across Salesforce, SAP, Oracle, NetSuite, Ariba, and Workday.</li>
+          <li>Act as the primary architecture authority for enterprise integrations, API strategy, SSO / identity management, data governance, and cloud security.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <p class="tl-period">Mar 2013 – Mar 2015 &nbsp;·&nbsp; 2 Years</p>
+        <h3 class="tl-role">Senior Lead Engineer, Salesforce PRM / Quote-to-Cash</h3>
+        <p class="tl-co">Citrix Systems</p>
+        <ul class="tl-list">
+          <li>Led architecture and development of Citrix's Salesforce-based Partner Relationship Management platform, supporting global channel operations across distributors and reseller partners.</li>
+          <li>Architected and delivered Q2C solutions integrating Salesforce, IBM Sterling, Marketo, Zuora, and Oracle Fusion Middleware — enabling end-to-end automation of sales, order management, and revenue processes.</li>
+          <li>Designed REST-based integration frameworks and service orchestration patterns that improved scalability, system interoperability, and data consistency across enterprise applications.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <p class="tl-period">Dec 2009 – Mar 2013 &nbsp;·&nbsp; 3 Years</p>
+        <h3 class="tl-role">CRM &amp; Business Solutions Manager (Salesforce)</h3>
+        <p class="tl-co">CollabNet, Inc. — San Francisco Bay Area</p>
+        <ul class="tl-list">
+          <li>Led the transformation and governance of enterprise Salesforce platforms supporting global operations across Sales, Marketing, Finance, Legal, and Customer Success.</li>
+          <li>Directed multi-org Salesforce consolidation initiatives, merging multiple instances into a single governed platform and improving scalability, data integrity, and operational efficiency.</li>
+          <li>Architected Lead-to-Cash reporting and analytics, delivering executive visibility into sales performance, revenue forecasting, bookings, and operational metrics.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <p class="tl-period">Dec 2005 – Jun 2009 &nbsp;·&nbsp; 3.5 Years</p>
+        <h3 class="tl-role">Salesforce Consultant</h3>
+        <p class="tl-co">Sun Microsystems, Inc. — San Francisco Bay Area</p>
+        <ul class="tl-list">
+          <li>Delivered enterprise CRM solutions supporting Sales and Marketing transformation — streamlining customer lifecycle management, lead processing, pipeline visibility, and forecasting.</li>
+          <li>Served as solution architect and technical lead across multiple Salesforce implementations, guiding platform strategy, technology selection, and deployment standards.</li>
+          <li>Built and mentored offshore support organizations, establishing knowledge-transfer frameworks that improved service quality and platform stability.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <p class="tl-period">Oct 2000 – Oct 2005 &nbsp;·&nbsp; 5 Years</p>
+        <h3 class="tl-role">Systems Software Engineer</h3>
+        <p class="tl-co">Sun Microsystems, Inc. — San Francisco Bay Area</p>
+        <ul class="tl-list">
+          <li>Technical lead for enterprise Quote-to-Order platforms supporting global sales and fulfillment — delivering highly scalable, mission-critical business applications.</li>
+          <li>Led a team of 13 engineers across design, development, and support while driving technology roadmaps, solution delivery, and operational excellence.</li>
+          <li>Delivered one of Sun's first large-scale Web Services architectures, establishing enterprise integration patterns that accelerated application modernization.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-earlier">
+          <p class="tl-earlier-title">Earlier Experience</p>
+          <div class="tl-earlier-items">
+            <p class="tl-earlier-item"><strong>Salesforce Consultant — BMC Software (2009)</strong> &nbsp;·&nbsp; Implemented Salesforce solutions against a range of business requirements.</p>
+            <p class="tl-earlier-item"><strong>Sales / Security Engineer — Wells Fargo (2005–2006)</strong> &nbsp;·&nbsp; Advised development teams on PCI requirements and secure development; conducted security reviews and drove application-compliance remediation.</p>
+            <p class="tl-earlier-item"><strong>Senior Software Engineer — CresSoft (2000)</strong> &nbsp;·&nbsp; Developed a large-scale B2B and B2C e-commerce platform for a chemical-industry client.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="sec">
+    <p class="lbl">Licenses &amp; Certifications</p>
+    <h2 class="sec-title reveal">Verified credentials.</h2>
+    <div class="cert-grid">
+      <div class="cert reveal"><div class="cert-dot"></div><div><p class="cert-name">Salesforce Certified Administrator</p><p class="cert-by">Salesforce</p></div></div>
+      <div class="cert reveal"><div class="cert-dot"></div><div><p class="cert-name">Salesforce Certified Sales Cloud Consultant</p><p class="cert-by">Salesforce</p></div></div>
+      <div class="cert reveal"><div class="cert-dot"></div><div><p class="cert-name">Salesforce Certified Service Cloud Consultant</p><p class="cert-by">Salesforce</p></div></div>
+      <div class="cert reveal"><div class="cert-dot"></div><div><p class="cert-name">Salesforce Certified Force.com Developer</p><p class="cert-by">Salesforce</p></div></div>
+      <div class="cert reveal"><div class="cert-dot"></div><div><p class="cert-name">Quote-to-Cash Certification</p><p class="cert-by">Apttus (Conga)</p></div></div>
+      <div class="cert reveal"><div class="cert-dot"></div><div><p class="cert-name">AWS Certified Cloud Practitioner</p><p class="cert-by">Amazon Web Services</p></div></div>
+      <div class="cert reveal"><div class="cert-dot"></div><div><p class="cert-name">AWS Certified Solutions Architect</p><p class="cert-by">Amazon Web Services</p></div></div>
+      <div class="cert reveal"><div class="cert-dot"></div><div><p class="cert-name">Certified ScrumMaster (CSM)</p><p class="cert-by">Scrum Alliance</p></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="sec">
+    <p class="lbl">Education</p>
+    <h2 class="sec-title reveal">Academic background.</h2>
+    <div class="edu-grid reveal">
+      <div class="edu-card">
+        <p class="edu-deg">Master of Business Administration (MBA), Executive Management</p>
+        <p class="edu-school">Saint Mary's College of California</p>
+        <p class="edu-years">2013 – 2014</p>
+      </div>
+      <div class="edu-card">
+        <p class="edu-deg">Master of Science, Computer Science</p>
+        <p class="edu-school">University of South Asia</p>
+        <p class="edu-years">1995 – 1998</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="sec">
+    <div class="contact-grid reveal">
+      <div>
+        <p class="lbl">Contact</p>
+        <h2 class="contact-hed">Let's build something<br><em>remarkable.</em></h2>
+      </div>
+      <div class="contact-links">
+
+        <a href="mailto:arooj_aftab@hotmail.com" class="clink">
+          <div class="clink-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div>
+            <p class="clink-lbl">Email</p>
+            <p class="clink-val">arooj_aftab@hotmail.com</p>
+          </div>
+        </a>
+
+        <a href="https://linkedin.com/in/achughtai" target="_blank" rel="noopener noreferrer" class="clink">
+          <div class="clink-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          </div>
+          <div>
+            <p class="clink-lbl">LinkedIn</p>
+            <p class="clink-val">linkedin.com/in/achughtai</p>
+          </div>
+        </a>
+
+        <div class="clink">
+          <div class="clink-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+            <p class="clink-lbl">Location</p>
+            <p class="clink-val">San Francisco, CA</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Arooj Chughtai &nbsp;·&nbsp; Enterprise Architect &nbsp;·&nbsp; San Francisco, CA</p>
+</footer>
+
+<script>
+/* ── HERO CANVAS — ENTERPRISE NETWORK ── */
+(function () {
+  const canvas = document.getElementById('hero-canvas');
+  const ctx    = canvas.getContext('2d');
+  const LABELS = ['Salesforce','SAP','Oracle','AWS','Ariba','NetSuite','Zuora','CLM','Marketo','Workday'];
+  const N      = 28;
+  const D_MAX  = 170;
+  let W, H, nodes;
+
+  function init() {
+    W = canvas.width  = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+    nodes = Array.from({ length: N }, (_, i) => ({
+      x:  Math.random() * W,
+      y:  Math.random() * H,
+      vx: (Math.random() - .5) * .4,
+      vy: (Math.random() - .5) * .4,
+      r:  Math.random() * 2.2 + 1.4,
+      lbl: i < LABELS.length ? LABELS[i] : null,
+      a:  Math.random() * .4 + .25
+    }));
+  }
+
+  function frame() {
+    ctx.clearRect(0, 0, W, H);
+
+    for (let i = 0; i < N; i++) {
+      for (let j = i + 1; j < N; j++) {
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        const d  = Math.sqrt(dx * dx + dy * dy);
+        if (d < D_MAX) {
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.strokeStyle = `rgba(247,195,95,${(1 - d / D_MAX) * .14})`;
+          ctx.lineWidth = .7;
+          ctx.stroke();
+        }
+      }
+    }
+
+    for (const n of nodes) {
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(247,195,95,${n.a})`;
+      ctx.fill();
+
+      if (n.lbl) {
+        ctx.font = '10px JetBrains Mono, monospace';
+        ctx.fillStyle = 'rgba(247,195,95,0.28)';
+        ctx.fillText(n.lbl, n.x + n.r + 5, n.y + 3.5);
+      }
+
+      n.x += n.vx;
+      n.y += n.vy;
+      if (n.x < 0 || n.x > W) n.vx *= -1;
+      if (n.y < 0 || n.y > H) n.vy *= -1;
+    }
+
+    requestAnimationFrame(frame);
+  }
+
+  const ro = new ResizeObserver(init);
+  ro.observe(canvas.parentElement);
+  init();
+  frame();
+}());
+
+/* ── SCROLL REVEAL ── */
+(function () {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+  }, { threshold: .08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+}());
+</script>
+</body>
+</html>
